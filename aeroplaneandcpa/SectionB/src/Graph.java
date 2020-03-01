@@ -5,9 +5,11 @@ public class Graph implements GraphInterface{
 
 	private GraphNode start;
 	private GraphNode finish;
+	private Set<GraphNode> visited;
 	
 	public Graph(String projectFile) throws Exception {
 		parseGraph(projectFile);
+		this.visited = new HashSet<>();
 	}
 	
 	private void setIncomingDegree() {
@@ -21,7 +23,14 @@ public class Graph implements GraphInterface{
 	//post: It sets the degree of each node to be equal to the number of incoming 
 	//      edges of that node. 
 	private void setIncomingDegreeRecursively(GraphNode node) {
-		
+		if (!visited.contains(node)){
+			node.setDegree(node.getIncomingEdges().size());
+			visited.add(node);
+			GenericListInterface<GraphEdge> edges = node.getOutgoingEdges();
+			for (GraphEdge edge : edges){
+				setIncomingDegreeRecursively(edge.getEndPoint());
+			}
+		}
 	}
 
 	//YOU ARE ASKED TO IMPLEMENT THIS METHOD
@@ -32,7 +41,22 @@ public class Graph implements GraphInterface{
 	//      another node indicates that there is a path from the former node to the latter 
 	//      node in the event-node graph.   
 	private QueueInterface<GraphNode> topologicalSort( ) {
-		return null;
+		setIncomingDegree();
+		Queue<GraphNode> temporary = new Queue<>();
+		Queue<GraphNode> result = new Queue<>();
+		temporary.enqueue(start);
+		while (!temporary.isEmpty()){
+			GraphNode next = temporary.dequeue();
+			GenericListInterface<GraphEdge> edges = next.getOutgoingEdges();
+			for (GraphEdge edge : edges){
+				int degree = edge.getEndPoint().getDegree() - 1;
+				edge.getEndPoint().setDegree(degree);
+				if (degree == 0){
+					temporary.enqueue(edge.getEndPoint());
+				}
+			}
+		}
+		return result;
 	}
 	
 	
@@ -52,11 +76,14 @@ public class Graph implements GraphInterface{
 		
 		//YOU ARE ASKED TO IMPLEMENT THIS WHILE LOOP 
 		while (!sortedNodes.isEmpty()) {
-		
-		
-		
-		}
-	
+			GraphNode next = sortedNodes.dequeue();
+			int minCompletionTime = 0;
+			for (GraphEdge edge : next.getIncomingEdges()){
+				int completionTime = edge.getStartPoint().EarliestCompletionTime() + edge.getTaskDuration();
+				minCompletionTime = Math.max(minCompletionTime, completionTime);
+			}
+			next.setEarliestCompletionTime(minCompletionTime);
+			}
 	}
 	
 	public int getEarliestCompletionTime() {
