@@ -45,19 +45,29 @@ public class Grid {
     }
 
     public boolean wouldAttackSucceed(Coordinate c) {
-        return false; // TODO: delete this line for Question 3a.
+        return grid[c.getRow()][c.getColumn()].equals(Piece.SHIP);
     }
 
     public void attackCell(Coordinate c) {
-        // TODO: Question 3b.
+        if (wouldAttackSucceed(c)){
+            grid[c.getRow()][c.getColumn()] = Piece.DAMAGED_SHIP;
+        } else if (grid[c.getRow()][c.getColumn()].equals(Piece.WATER)){
+            grid[c.getRow()][c.getColumn()] = Piece.MISS;
+        }
     }
 
     public boolean areAllSunk() {
-        return false; // TODO: delete this line for Question 3c.
+        boolean shipsRemaining = false;
+        for (int i = 0; i < WIDTH; i++){
+            for (int j = 0; j < HEIGHT; j++){
+                shipsRemaining |= grid[i][j].equals(Piece.SHIP);
+            }
+        }
+        return !shipsRemaining;
     }
 
     public String toPlayerString() {
-        return null; // TODO: delete this line for Question 4.
+        return renderGrid(grid).replace('#', '.');
     }
 
     @Override

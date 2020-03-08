@@ -5,9 +5,20 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Grid grid = makeInitialGrid();
-        System.out.println(grid);
+        int numAttempts = 0;
 
-        // TODO: Question 4.
+        while (!grid.areAllSunk()){
+            System.out.println(grid.toPlayerString());
+            System.out.println("Enter an attack: ");
+            Coordinate attack = Util.parseCoordinate(input.nextLine());
+            if (grid.wouldAttackSucceed(attack)){
+                System.out.println("Direct Hit!");
+            }
+            grid.attackCell(attack);
+            numAttempts++;
+        }
+        System.out.println("You took " + numAttempts + " attempts to sink all the ships!");
+        System.out.println(grid.toPlayerString());
     }
 
     private static Grid makeInitialGrid() {
