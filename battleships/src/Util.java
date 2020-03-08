@@ -9,7 +9,7 @@ public class Util {
 
     private static int numberToIndex(char number) {
         assert (number >= '0' && number <= '9');
-        return number;
+        return number - '0';
     }
 
     public static Coordinate parseCoordinate(String s) {
@@ -42,4 +42,5 @@ public class Util {
         }
         return output;
     }
+
 }

@@ -6,15 +6,42 @@ public class Grid {
     private final Piece[][] grid = new Piece[HEIGHT][WIDTH];
 
     public Grid() {
-        // TODO: Question 2a.
+        for (int i = 0; i < WIDTH; i++){
+            for (int j = 0; j < HEIGHT; j++){
+                grid[i][j] = Piece.WATER;
+            }
+        }
     }
 
     public boolean canPlace(Coordinate c, int size, boolean isDown) {
-        return false; // TODO: delete this line for Question 2b.
+        boolean canPlace = true;
+        int row = c.getRow();
+        int column = c.getColumn();
+        if (isDown){
+            for (int i = 0; i < size; i++){
+                canPlace &= grid[row][column + i].equals(Piece.WATER);
+            }
+        } else {
+            for (int i = 0; i < size; i++){
+                canPlace &= grid[row + i][column].equals(Piece.WATER);
+            }
+        }
+        return canPlace;
     }
 
     public void placeShip(Coordinate c, int size, boolean isDown) {
-        // TODO: Question 2c.
+        assert (canPlace(c, size, isDown));
+        int row = c.getRow();
+        int column = c.getColumn();
+        if (isDown){
+            for (int i = 0; i < size; i++){
+                grid[row + i][column] = Piece.SHIP;
+            }
+        } else {
+            for (int i = 0; i < size; i++){
+                grid[row][column + i] = Piece.SHIP;
+            }
+        }
     }
 
     public boolean wouldAttackSucceed(Coordinate c) {
