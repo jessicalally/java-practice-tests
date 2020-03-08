@@ -44,10 +44,14 @@ public class Executor {
 		return result.toString();
 	}
 
-	// An incorrect attempt at overriding the equals method
-	// of Object
-	public boolean equals(Executor that) {
-		return program.toString() == that.program.toString();
+	@Override
+	public boolean equals(Object that) {
+		if (that instanceof Executor) {
+			Executor other = (Executor) that;
+			return this.program.toString().equals(other.program.toString());
+		} else {
+			return false;
+		}
 	}
 
 }

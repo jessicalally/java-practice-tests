@@ -151,30 +151,30 @@ public class Progress {
 
 	private static void testQuestion4() {
 
-//        System.out.println("================");
-//        System.out.println("Question 4 tests");
-//        System.out.println("================");
-//
-//        {
-//            String result = new Executor(makeExampleProgram2(), new
-//                    FewestWaitsScheduler()).execute();
-//            checkExpectedVersusActual("Final state: [x -> 1, y -> 1, z -> 1]\nHistory: [3, 2, 2, 1, 1, 0]\nTermination status: graceful\n",
-//                    result);
-//        }
-//
-//        {
-//            String result = new Executor(makeExampleProgram3(), new
-//                    FewestWaitsScheduler()).execute();
-//            checkExpectedVersusActual("Final state: [x -> 0]\nHistory: []\nTermination status: deadlock\n",
-//                    result);
-//        }
-//
-//        {
-//            String result = new Executor(makeExampleProgram4(), new
-//                    FewestWaitsScheduler()).execute();
-//            checkExpectedVersusActual("Final state: [x -> 0, y -> 3]\nHistory: [0, 0, 0, 3, 3, 3, 1, 1, 1, 1, 2, 2, 2, 2]\nTermination status: graceful\n",
-//                    result);
-//        }
+        System.out.println("================");
+        System.out.println("Question 4 tests");
+        System.out.println("================");
+
+        {
+            String result = new Executor(makeExampleProgram2(), new
+                    FewestWaitsScheduler()).execute();
+            checkExpectedVersusActual("Final state: [x -> 1, y -> 1, z -> 1]\nHistory: [3, 2, 2, 1, 1, 0]\nTermination status: graceful\n",
+                    result);
+        }
+
+        {
+            String result = new Executor(makeExampleProgram3(), new
+                    FewestWaitsScheduler()).execute();
+            checkExpectedVersusActual("Final state: [x -> 0]\nHistory: []\nTermination status: deadlock\n",
+                    result);
+        }
+
+        {
+            String result = new Executor(makeExampleProgram4(), new
+                    FewestWaitsScheduler()).execute();
+            checkExpectedVersusActual("Final state: [x -> 0, y -> 3]\nHistory: [0, 0, 0, 3, 3, 3, 1, 1, 1, 1, 2, 2, 2, 2]\nTermination status: graceful\n",
+                    result);
+        }
 
 	}
 
@@ -296,53 +296,53 @@ public class Progress {
 	 * 
 	 * @return an example concurrent program
 	 */
-//    private static ConcurrentProgram makeExampleProgram4() {
-//
-//        Set<String> variables = new HashSet<>();
-//        variables.add("x");
-//        variables.add("y");
-//
-//        List<Stmt> statements0 = new ArrayList<Stmt>();
-//        statements0.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements0.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements0.add(new AssignStmt("y", new LiteralExpr(1)));
-//
-//        List<Stmt> statements1 = new ArrayList<Stmt>();
-//        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements1.add(new AssignStmt("y", new LiteralExpr(2)));
-//
-//        List<Stmt> statements2 = new ArrayList<Stmt>();
-//        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements2.add(new AssignStmt("y", new LiteralExpr(3)));
-//
-//        List<Stmt> statements3 = new ArrayList<Stmt>();
-//        statements3.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements3.add(new WaitStmt(new IdentifierExpr("x"), new
-//                LiteralExpr(0)));
-//        statements3.add(new AssignStmt("y", new LiteralExpr(4)));
-//
-//        List<List<Stmt>> threads = new ArrayList<>();
-//        threads.add(statements0);
-//        threads.add(statements1);
-//        threads.add(statements2);
-//        threads.add(statements3);
-//
-//        return new ConcurrentProgram(variables, threads);
-//
-//    }
+    private static ConcurrentProgram makeExampleProgram4() {
+
+        Set<String> variables = new HashSet<>();
+        variables.add("x");
+        variables.add("y");
+
+        List<Stmt> statements0 = new ArrayList<Stmt>();
+        statements0.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements0.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements0.add(new AssignStmt("y", new LiteralExpr(1)));
+
+        List<Stmt> statements1 = new ArrayList<Stmt>();
+        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements1.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements1.add(new AssignStmt("y", new LiteralExpr(2)));
+
+        List<Stmt> statements2 = new ArrayList<Stmt>();
+        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements2.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements2.add(new AssignStmt("y", new LiteralExpr(3)));
+
+        List<Stmt> statements3 = new ArrayList<Stmt>();
+        statements3.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements3.add(new WaitStmt(new IdentifierExpr("x"), new
+                LiteralExpr(0)));
+        statements3.add(new AssignStmt("y", new LiteralExpr(4)));
+
+        List<List<Stmt>> threads = new ArrayList<>();
+        threads.add(statements0);
+        threads.add(statements1);
+        threads.add(statements2);
+        threads.add(statements3);
+
+        return new ConcurrentProgram(variables, threads);
+
+    }
 
 	/**
 	 * Compares String output of your code with output known to be correct

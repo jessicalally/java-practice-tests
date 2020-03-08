@@ -38,7 +38,7 @@ public class RoundRobinScheduler implements Scheduler {
     return smallestSoFar;
   }
 
-  private Integer getSmallestIdLargerThant(Set<Integer> ids) {
+   private Integer getSmallestIdLargerThant(Set<Integer> ids) {
     Set<Integer> idsGreaterThant = new HashSet<>();
     for (Integer id : ids) {
       if (id > t) {
