@@ -70,9 +70,9 @@ public class Tests {
     assertEquals(new Integer(8), p1.product(p2).getCoordX());
     assertEquals(new Integer(15), p1.product(p2).getCoordY());
   }
-  
 
-  /*
+
+
   @Test
   public void testQuestion3() {
 
@@ -119,7 +119,7 @@ public class Tests {
     assertEquals(false, booleanMatrixProduct.get(2, 2));
 
   }
-  */
+
 
   /*
   @Test
