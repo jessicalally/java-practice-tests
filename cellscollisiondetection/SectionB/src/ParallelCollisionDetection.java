@@ -52,6 +52,17 @@ public class ParallelCollisionDetection {
   private static boolean checkObjects(
       PriorityQueueInterface<Object2D> sortedPoints, AABB region) {
 
+    QuadTree tree = new QuadTree(region, 4);
+
+    Thread thread2 = new Thread();
+    Thread thread3 = new Thread();
+
+    Thread thread1 = new Thread(() -> {
+      while (!sortedPoints.isEmpty()){
+
+      }
+    })
+
 
     /* Spawn three threads that check for collisions in parallel. 
      *
@@ -81,6 +92,8 @@ public class ParallelCollisionDetection {
      * Justify here your implementation choice versus other valid alternatives
      */
   }
+
+
 
 
   /**

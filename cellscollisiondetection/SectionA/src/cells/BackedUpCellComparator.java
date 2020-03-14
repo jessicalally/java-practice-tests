@@ -16,7 +16,11 @@ public class BackedUpCellComparator<U> implements Comparator<BackedUpCell<U>> {
     LinkedList<U> firstValues = new LinkedList<>();
     LinkedList<U> secondValues = new LinkedList<>();
 
-    if (first.isSet() && second.isSet()) {
+    if (first.isSet() && !second.isSet()) {
+      return 1;
+    } else if (!first.isSet() && second.isSet()) {
+      return -1;
+    } else if (first.isSet() && second.isSet()) {
       while (first.hasBackup() && second.hasBackup()) {
         int result = valueComparator.compare(first.get(), second.get());
         if (result != 0){
@@ -67,11 +71,6 @@ public class BackedUpCellComparator<U> implements Comparator<BackedUpCell<U>> {
     }
     for (U value : secondValues){
       second.set(value);
-    }
-    if (first.isSet() && !second.isSet()) {
-      return 1;
-    } else if (!first.isSet() && second.isSet()) {
-      return -1;
     }
     return 0;
   }

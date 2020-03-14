@@ -74,6 +74,9 @@ public class PriorityQueue<T extends Comparable<T>> implements
    */
   public void remove() {
     // TODO: Implement this method for Question 1
+    items[0] = items[size - 1];
+    size--;
+    PQRebuild(0);
   }
 
   /**
@@ -81,6 +84,21 @@ public class PriorityQueue<T extends Comparable<T>> implements
    */
   private void PQRebuild(int root) {
     // TODO: Implement this method for Question 1
+    int left = root * 2 + 1;
+    int right = left + 1;
+    if (right < size){
+      int compareTo = left;
+      if (items[right].compareTo(items[left]) < 0){
+        compareTo = right;
+      }
+      if (items[root].compareTo(items[compareTo]) > 0){
+        T temp = items[root];
+        items[root] = items[compareTo];
+        items[compareTo] = temp;
+        PQRebuild(compareTo);
+      }
+    }
+
   }
 
 

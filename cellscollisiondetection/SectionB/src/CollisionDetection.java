@@ -44,6 +44,19 @@ public class CollisionDetection {
   private static boolean checkObjects(
       PriorityQueueInterface<Object2D> sortedPoints, AABB region) {
     // TODO: Implement this method for Question 4
+    QuadTree tree = new QuadTree(region, 4);
+    for (int i = 0; i < sortedPoints.getSize(); i++){
+      Object2D next = sortedPoints.peek();
+      Point2D topLeft = new Point2D(next.getCenter().x - next.getSize(), next.getCenter().y + next.getSize());
+      Point2D bottomRight = new Point2D(next.getCenter().x + next.getSize(), next.getCenter().y - next.getSize());
+      AABB safetyRegion = new AABB(topLeft, bottomRight);
+      if (tree.queryRegion(safetyRegion).isEmpty()){
+        tree.add(next);
+        sortedPoints.remove();
+      } else {
+        return false;
+      }
+    }
     return true;
   }
 

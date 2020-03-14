@@ -34,6 +34,7 @@ public class QuadTree implements QuadTreeInterface {
    */
   public void add(Object2D elem) {
     // TODO: Implement this method for Question 2
+    addHelper(root, elem);
   }
 
   /**
@@ -43,8 +44,33 @@ public class QuadTree implements QuadTreeInterface {
    * @param node the root of the current subtree to visit
    */
   private QuadTreeNode addHelper(QuadTreeNode node, Object2D elem) {
-    // TODO: Implement this method for Question 2
-    return null;
+    if (!node.isLeaf()) {
+      if (node.NE.region.covers(elem.getCenter())) {
+        return addHelper(node.NE, elem);
+      }
+      if (node.NW.region.covers(elem.getCenter())) {
+        return addHelper(node.NW, elem);
+      }
+      if (node.SE.region.covers(elem.getCenter())) {
+        return addHelper(node.SE, elem);
+      }
+      if (node.SW.region.covers(elem.getCenter())) {
+        return addHelper(node.SW, elem);
+      }
+    } else {
+      if (node.values.size() < nodeCapacity) {
+        node.values.add(node.values.size() + 1, elem);
+        return node;
+      } else {
+        node.subdivide();
+        while (!node.values.isEmpty()) {
+          addHelper(node, node.values.get(1));
+          node.values.remove(1);
+        }
+        return addHelper(node, elem);
+      }
+    }
+    return node;
   }
 
   /**
@@ -58,7 +84,9 @@ public class QuadTree implements QuadTreeInterface {
    */
   public ListInterface<Object2D> queryRegion(AABB region) {
     // TODO: Implement this method for Question 3
-    return null;
+    ListInterface<Object2D> bucket = new ListArrayBased<>();
+    queryRegionHelper(root, region, bucket);
+    return bucket;
   }
 
   /**
@@ -74,6 +102,30 @@ public class QuadTree implements QuadTreeInterface {
   private void queryRegionHelper(QuadTreeNode node, AABB region,
       ListInterface<Object2D> bucket) {
     // TODO: Implement this method for Question 3
+    if (!node.isLeaf()){
+      if (node.NE.region.covers(region.topLeft()) || node.NE.region.covers(region.bottomLeft())
+          || node.NE.region.covers(region.topRight()) || node.NE.region.covers(region.bottomRight())) {
+        queryRegionHelper(node.NE, region, bucket);
+      }
+      if (node.NW.region.covers(region.topLeft()) || node.NW.region.covers(region.bottomLeft())
+          || node.NW.region.covers(region.topRight()) || node.NW.region.covers(region.bottomRight())) {
+        queryRegionHelper(node.NW, region, bucket);
+      }
+      if (node.SE.region.covers(region.topLeft()) || node.SE.region.covers(region.bottomLeft())
+          || node.SE.region.covers(region.topRight()) || node.SE.region.covers(region.bottomRight())) {
+        queryRegionHelper(node.SE, region, bucket);
+      }
+      if (node.SW.region.covers(region.topLeft()) || node.SW.region.covers(region.bottomLeft())
+          || node.SW.region.covers(region.topRight()) || node.SW.region.covers(region.bottomRight())) {
+        queryRegionHelper(node.SW, region, bucket);
+      }
+    } else {
+      for (int i = 0; i < node.values.size(); i++){
+        if (region.covers(node.values.get(i).getCenter())){
+          bucket.add(bucket.size() + 1, node.values.get(i));
+        }
+      }
+    }
   }
 
   /**
