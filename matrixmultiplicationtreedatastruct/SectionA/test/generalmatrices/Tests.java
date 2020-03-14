@@ -121,7 +121,7 @@ public class Tests {
   }
 
 
-  /*
+
   @Test
   public void testQuestion4() {
 
@@ -146,7 +146,7 @@ public class Tests {
     assertEquals(new Integer(-11269), productOfPairMatrices.get(1, 1).getCoordY());
 
   }
-  */
+  
 
 
 }

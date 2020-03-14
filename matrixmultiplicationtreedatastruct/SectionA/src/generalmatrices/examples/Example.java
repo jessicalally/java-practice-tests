@@ -3,13 +3,17 @@ package generalmatrices.examples;
 import generalmatrices.matrix.Matrix;
 import generalmatrices.pair.PairWithOperators;
 import java.util.List;
+import java.util.function.BinaryOperator;
+import java.util.stream.Stream;
 
 public class Example {
 
   public static Matrix<PairWithOperators> multiplyPairMatrices(
-        List<Matrix<PairWithOperators>> matrices) {
+      List<Matrix<PairWithOperators>> matrices) {
     // TODO: implement as part of Question 4
-    return null;
+    return matrices.stream()
+        .reduce((m1, m2) -> m1.product(m2, PairWithOperators::sum, PairWithOperators::product))
+        .get();
   }
-
 }
+
