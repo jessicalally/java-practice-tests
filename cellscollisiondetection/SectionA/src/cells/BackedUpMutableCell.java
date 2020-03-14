@@ -55,5 +55,5 @@ public class BackedUpMutableCell<T> extends MutableCell<T> implements BackedUpCe
       values.removeLast();
     }
   }
-  
+
 }
