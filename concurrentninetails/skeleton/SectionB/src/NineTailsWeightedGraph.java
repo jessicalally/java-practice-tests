@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 /**
   * You must implement the <code>constructGraph</code> and <code>constructMinimumSpanningTree</code> methods.
   *
@@ -25,6 +27,18 @@ public class NineTailsWeightedGraph {
 	 */
 	private void constructGraph() {
 	    // TODO: Implement this method for Question 3
+		ListArrayBased<PriorityQueue<WeightedEdge>> configurations = new ListArrayBased<>();
+		for (int i = 1; i <= NUM_CONFIGURATIONS; i++){
+			configurations.add(i, new PriorityQueue<>());
+		}
+		for (int i = 1; i <= NUM_CONFIGURATIONS; i++){
+			PriorityQueueInterface<WeightedEdge> edges = generateParents(i);
+			while (!edges.isEmpty()){
+				WeightedEdge edge = edges.peek();
+				configurations.get(edge.child).add(edge);
+				edges.remove();
+			}
+		}
 	}
 
 	/**
@@ -51,12 +65,10 @@ public class NineTailsWeightedGraph {
 	private PriorityQueueInterface<WeightedEdge> generateParents(int index) {
 		PriorityQueueInterface<WeightedEdge> parents = new PriorityQueue<WeightedEdge>();
 		char[] conf = indexToConfiguration(index);
-
 		for (int pos = 0; pos < 9; pos++) {
 			if (conf[pos] == 'H') {
 				FlipResult res = flipConfiguration(index, pos);
-				WeightedEdge edge = new WeightedEdge(index, res.newIndex,
-						res.numFlips);
+				WeightedEdge edge = new WeightedEdge(index, res.newIndex, res.numFlips);
 				parents.add(edge);
 			}
 		}
@@ -159,8 +171,7 @@ public class NineTailsWeightedGraph {
 	
 	public void printParentsTest(int index) {
 		printConfiguration(index);
-		PriorityQueue<WeightedEdge> parents = ((PriorityQueue<WeightedEdge>) configurations
-				.get(index)).clone();
+		PriorityQueue<WeightedEdge> parents = ((PriorityQueue<WeightedEdge>) configurations.get(index)).clone();
 		System.out.println(parents.getSize() + " parents" + ": ");
 		System.out.println("-----------------------------");
 		while (!parents.isEmpty()) {
@@ -213,19 +224,50 @@ public class NineTailsWeightedGraph {
 	 * <strong>Implement the rest of this method for Question 4</strong>
 	 */
 	private void constructMinimumSpanningTree() {
-		ListInterface<Integer> visited = new ListArrayBased<Integer>();
+		ListInterface<Integer> visited = new ListArrayBased<>();
 		int[] nextMoves = new int[NUM_CONFIGURATIONS + 1];
 		int[] costs = new int[NUM_CONFIGURATIONS + 1];
-		// init
 		for (int i = 1; i <= NUM_CONFIGURATIONS; i++) {
-			nextMoves[i] = -1; // -1 means not visited yet (i.e., no parental
-								// information)
+			nextMoves[i] = -1;
 			costs[i] = Integer.MAX_VALUE;
 		}
-		
-		ListInterface<PriorityQueueInterface<WeightedEdge>> confCopy = getConfigurationsCopy();
-
-		// TODO: Implement the rest of this method for Question 4
+		ListInterface<PriorityQueueInterface<WeightedEdge>> confCopy
+				= getConfigurationsCopy();
+		visited.add(1, TERMINAL_CONFIGURATION_INDEX);
+		costs[TERMINAL_CONFIGURATION_INDEX] = 0;
+		while (visited.size() < NUM_CONFIGURATIONS) {
+			int u = 1;
+			int v = 1;
+			int c = Integer.MAX_VALUE;
+			for (int i = 1; i <= visited.size(); i++) {
+				int u0 = visited.get(i);
+				PriorityQueueInterface<WeightedEdge> conf = confCopy.get(u0);
+				if (!conf.isEmpty()) {
+					WeightedEdge edge = conf.peek();
+					if (edge != null) {
+						int v0 = edge.parent;
+						int c0 = edge.weight + costs[u0];
+						while (visited.contains(v0) && !conf.isEmpty()) {
+							edge = conf.peek();
+							if (edge != null) {
+								v0 = edge.parent;
+								c0 = edge.weight + costs[u0];
+								conf.remove();
+							}
+						}
+						if (c0 + costs[u0] < c) {
+							u = u0;
+							v = v0;
+							c = c0;
+						}
+					}
+				}
+			}
+			visited.add(visited.size() + 1, v);
+			costs[v] = c;
+			nextMoves[v] = u;
+		}
+		mst = new MinimumSpanningTree(nextMoves, costs);
 	}
 
 	// *** helper classes
