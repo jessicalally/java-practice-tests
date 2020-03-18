@@ -29,6 +29,21 @@ public class PriorityQueue<E extends Comparable<E>> implements PriorityQueueInte
 	// post: Adds a new entry to the priority queue according to 
         // the priority value.
 	// ADD YOUR CODE HERE
+		if (size == max_size){
+			throw new PriorityQueueException("Priority queue is full.");
+		} else {
+			items[size] = newEntry;
+			int position = size;
+			int parent = (size - 1) / 2;
+			while (parent > 0 && items[position].compareTo(items[parent]) < 0){
+				E temp = items[position];
+				items[position] = items[parent];
+				items[parent] = temp;
+				position = parent;
+				parent = (position - 1) / 2;
+			}
+			size++;
+		}
 	}
  				
  	public E removeMin(){
@@ -46,5 +61,24 @@ public class PriorityQueue<E extends Comparable<E>> implements PriorityQueueInte
 	private void heapRebuild(int root){
 	// Rebuild heap to keep it ordered
 	// ADD YOUR CODE HERE
+		int left = root * 2 + 1;
+		if (left < size){
+			int right = left + 1;
+			int minI;
+			if (items[left].compareTo(items[right]) < 0){
+				E min = items[left];
+				minI = left;
+			} else {
+				E min = items[right];
+				minI = right;
+			}
+			if (items[minI].compareTo(items[root]) < 0){
+				E temp = items[minI];
+				items[minI] = items[root];
+				items[root] = temp;
+				heapRebuild(minI);
+			}
+		}
+
 	}
 }
